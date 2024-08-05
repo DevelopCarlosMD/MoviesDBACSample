@@ -10,15 +10,16 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.BottomAppBarScrollBehavior
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -45,7 +46,12 @@ import com.capgemini.architectcoders.ui.screens.Screen
 @Composable
 fun DetailScreen(vm: DetailViewModel, onBack: () -> Unit) {
     val state by vm.state.collectAsState()
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val detailState = rememberDetailState()
+
+    detailState.ShowMessageEffect(message = state.message) {
+        vm.onMessageShown()
+        //vm.onAction(DetailAction.MessageShown) => MVI
+    }
 
     Screen {
         Scaffold(
@@ -53,10 +59,22 @@ fun DetailScreen(vm: DetailViewModel, onBack: () -> Unit) {
                 DetailTopBar(
                     title = state.movie?.title ?: "",
                     onBack = onBack,
-                    scrollBehavior = scrollBehavior
+                    scrollBehavior = detailState.scrollBehavior
                 )
             },
-            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+            floatingActionButton = {
+                //vm.onAction(DetailAction.FavoriteClick) // -> MVI
+                FloatingActionButton(onClick = { vm.onFavoriteClick() }) {
+                    Icon (
+                        imageVector = Icons.Default.FavoriteBorder,
+                        contentDescription = stringResource(id = R.string.favorite)
+                    )
+                }
+            },
+            snackbarHost = {
+                SnackbarHost(hostState = detailState.snackBarHostState )
+            },
+            modifier = Modifier.nestedScroll(detailState.scrollBehavior.nestedScrollConnection)
         ) { padding ->
             if (state.loading) {
                 LoadingIndicator(modifier = Modifier.padding(padding))
@@ -125,6 +143,7 @@ private fun MovieDetail(
     }
 }
 
+// NOTE: AnnotedString.Builder a text can have different styles
 @Composable
 private fun AnnotatedString.Builder.Property(name: String, value: String, end: Boolean = false) {
     withStyle(ParagraphStyle(lineHeight = 18.sp)) {

@@ -43,4 +43,34 @@ fun Navigation() {
                 onBack = { navController.popBackStack() })
         }
     }*/
+
+    /*
+    * sealed class NavScreen(val route: String) {
+        object Home : NavScreen("home")
+        data class Detail : NavScreen("detail/{${NavArgs.MovieId.key}}") {
+            fun createRoute(movieId: Int) = "detail/$movieId"
+        }
+    }
+    *
+    * enum class NavArgs(val key: String) {
+        MovieId("movieId")
+    }
+    *
+    * NavHost(navController = navController, startDestination = NavScreen.Home.route) {// Destino de origen
+        composable(NavScreen.Home.route) {
+            HomeScreen(onMovieClick = { movie ->
+                navController.navigate(NavScreen.Detail.createRoute(movie.id))
+            })
+        }
+        composable(
+            route = NavScreen.Detail.route,
+            arguments = listOf(NaArgs.MovieId.key) { type = NavType.IntType })
+        ) { backStackEntry ->
+            val movieId = requireNotNull(backStackEntry.arguments?.getInt(NavArgs.MovieId.key))
+            DetailScreen(
+                viewModel = { DetailViewModel(movieId) },
+                onBack = { navController.popBackStack() })
+        }
+    }
+    * */
 }
