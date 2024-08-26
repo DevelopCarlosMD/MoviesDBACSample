@@ -49,8 +49,8 @@ fun DetailScreen(vm: DetailViewModel, onBack: () -> Unit) {
     val detailState = rememberDetailState()
 
     detailState.ShowMessageEffect(message = state.message) {
-        vm.onMessageShown()
-        //vm.onAction(DetailAction.MessageShown) => MVI
+        //vm.onMessageShown()
+        vm.onAction(DetailAction.MessageShown)
     }
 
     Screen {
@@ -63,13 +63,13 @@ fun DetailScreen(vm: DetailViewModel, onBack: () -> Unit) {
                 )
             },
             floatingActionButton = {
-                //vm.onAction(DetailAction.FavoriteClick) // -> MVI
-                FloatingActionButton(onClick = { vm.onFavoriteClick() }) {
+                vm.onAction(DetailAction.FavoriteClick) // -> MVI
+                /*FloatingActionButton(onClick = { vm.onFavoriteClick() }) {
                     Icon (
                         imageVector = Icons.Default.FavoriteBorder,
                         contentDescription = stringResource(id = R.string.favorite)
                     )
-                }
+                }*/
             },
             snackbarHost = {
                 SnackbarHost(hostState = detailState.snackBarHostState )

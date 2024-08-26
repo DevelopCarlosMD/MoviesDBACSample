@@ -11,10 +11,10 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 // MVI is a list of actions**
-/* sealed interface DetailAction {
+sealed interface DetailAction {
     data object FavoriteClick : DetailAction
     data object MessageShown : DetailAction
-}*/
+}
 
 class DetailViewModel(
     private val id: Int,
@@ -39,14 +39,14 @@ class DetailViewModel(
         }
     }
 
-    /*fun onAction(action : DetailAction) {
+    fun onAction(action : DetailAction) {
         // Juntando la tupla del estado antiguo y la accion se genera un estado nuevo
         // Se conoce con el nombre reducer
         when(action) {
             is DetailAction.FavoriteClick -> _state.update { it.copy(message = "Favorite clicked") }
             is DetailAction.MessageShown -> _state.update { it.copy(message = null) }
         }
-    }*/
+    }
 
     fun onFavoriteClick() {
         _state.update { it.copy(message = "Favorite clicked") }
