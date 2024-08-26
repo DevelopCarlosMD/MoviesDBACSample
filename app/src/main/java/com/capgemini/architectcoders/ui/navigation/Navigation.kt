@@ -1,29 +1,47 @@
 package com.capgemini.architectcoders.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.capgemini.architectcoders.App
+import com.capgemini.architectcoders.data.MoviesRepository
+import com.capgemini.architectcoders.data.RegionRepository
+import com.capgemini.architectcoders.data.datasource.LocationDataSource
+import com.capgemini.architectcoders.data.datasource.MoviesLocalDataSource
+import com.capgemini.architectcoders.data.datasource.MoviesRemoteDataSource
+import com.capgemini.architectcoders.data.datasource.RegionDataSource
 import com.capgemini.architectcoders.ui.screens.detail.DetailScreen
 import com.capgemini.architectcoders.ui.screens.detail.DetailViewModel
 import com.capgemini.architectcoders.ui.screens.home.HomeScreen
+import com.capgemini.architectcoders.ui.screens.home.HomeViewModel
 
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
+    val app = LocalContext.current.applicationContext as App
+    val moviesRepository = MoviesRepository(
+        RegionRepository(
+            RegionDataSource(
+                app,
+                LocationDataSource(app)
+            )
+        ), MoviesLocalDataSource(app.db.moviesDao()), MoviesRemoteDataSource()
+    )
     NavHost(navController = navController, startDestination = Home) {// Destino de origen
         composable<Home> {
             HomeScreen(onMovieClick = { movie ->
                 navController.navigate(Details(movie.id))
-            })
+            }, viewModel { HomeViewModel(moviesRepository) })
         }
-        composable<Details>{ backStackEntry ->
+        composable<Details> { backStackEntry ->
             val details = backStackEntry.toRoute<Details>()
             DetailScreen(
                 //viewModel = movies.first { it.id == details.movieId },
-                viewModel { DetailViewModel(details.movieId) },
+                viewModel { DetailViewModel(details.movieId, moviesRepository) },
                 onBack = { navController.popBackStack() })
         }
     }

@@ -1,5 +1,6 @@
 package com.capgemini.architectcoders.ui.screens.home
 
+import android.Manifest
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,22 +26,22 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.capgemini.architectcoders.R
 import com.capgemini.architectcoders.data.Movie
 import com.capgemini.architectcoders.ui.common.LoadingIndicator
+import com.capgemini.architectcoders.ui.common.PermissionRequestEffect
 import com.capgemini.architectcoders.ui.screens.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     onMovieClick: (Movie) -> Unit,
-    vm: HomeViewModel = viewModel()
+    vm: HomeViewModel
 ) {
     val homeState = rememberHomeState()
-    homeState.AskRegionEffect {
-        vm.onUiReady(it)
+    PermissionRequestEffect(permission = Manifest.permission.ACCESS_COARSE_LOCATION) {
+        vm.onUiReady()
     }
     Screen {
         Scaffold(

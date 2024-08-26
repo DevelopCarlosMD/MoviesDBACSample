@@ -16,8 +16,11 @@ import kotlinx.coroutines.launch
     data object MessageShown : DetailAction
 }*/
 
-class DetailViewModel(private val id: Int) : ViewModel() {
-    private val repository: MoviesRepository = MoviesRepository()
+class DetailViewModel(
+    private val id: Int,
+    private val repository: MoviesRepository
+) : ViewModel() {
+
     private val _state = MutableStateFlow(UiState())
     val state: StateFlow<UiState> = _state.asStateFlow()
 
@@ -30,7 +33,9 @@ class DetailViewModel(private val id: Int) : ViewModel() {
     init {
         viewModelScope.launch {
             _state.value = UiState(loading = true)
-            _state.value = UiState(loading = false, movie = repository.findMovieById(id))
+            repository.findMovieById(id).collect { movie ->
+                _state.value = UiState(loading = false, movie = movie)
+            }
         }
     }
 
