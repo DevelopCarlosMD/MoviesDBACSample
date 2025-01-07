@@ -1,11 +1,7 @@
-package com.capgemini.architectcoders.data
+package com.capgemini.architectcoders.domain
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 
-@Entity
-data class Movie(
-    @PrimaryKey(autoGenerate = true)
+data class MovieModel(
     val id: Int,
     val title: String,
     val overview: String,

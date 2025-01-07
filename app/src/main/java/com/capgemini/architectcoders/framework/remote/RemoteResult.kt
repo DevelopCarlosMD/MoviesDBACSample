@@ -1,8 +1,7 @@
-package com.capgemini.architectcoders.data.datasource.remote
+package com.capgemini.architectcoders.framework.remote
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-
 
 @Serializable
 data class RemoteResult (

@@ -2,8 +2,9 @@ package com.capgemini.architectcoders.ui.screens.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.capgemini.architectcoders.data.Movie
-import com.capgemini.architectcoders.data.MoviesRepository
+import com.capgemini.architectcoders.domain.MovieModel
+import com.capgemini.architectcoders.usecases.FindMovieByIdUseCase
+import com.capgemini.architectcoders.usecases.ToggleFavoriteUseCase
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -12,10 +13,11 @@ import kotlinx.coroutines.launch
 
 class DetailViewModel(
     id: Int,
-    private val repository: MoviesRepository
+    findMovieByIdUseCase: FindMovieByIdUseCase,
+    private val toggleFavoriteUseCase: ToggleFavoriteUseCase
 ) : ViewModel() {
 
-    val state: StateFlow<UiSate> = repository.findMovieById(id)
+    val state: StateFlow<UiSate> = findMovieByIdUseCase(id)
         .map { movie ->
             UiSate(movie = movie)
         }.stateIn(
@@ -26,13 +28,13 @@ class DetailViewModel(
 
     data class UiSate(
         val loading: Boolean = false,
-        val movie: Movie? = null
+        val movie: MovieModel? = null
     )
 
     fun onFavoriteClicked() {
         state.value.movie?.let {
             viewModelScope.launch {
-                repository.toggleFavoriteMovie(it)
+                toggleFavoriteUseCase(it)
             }
         }
     }

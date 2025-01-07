@@ -1,5 +1,6 @@
 package com.capgemini.architectcoders.ui.navigation
 
+import android.location.Geocoder
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -10,38 +11,54 @@ import androidx.navigation.toRoute
 import com.capgemini.architectcoders.App
 import com.capgemini.architectcoders.data.MoviesRepository
 import com.capgemini.architectcoders.data.RegionRepository
-import com.capgemini.architectcoders.data.datasource.LocationDataSource
-import com.capgemini.architectcoders.data.datasource.MoviesLocalDataSource
-import com.capgemini.architectcoders.data.datasource.MoviesRemoteDataSource
-import com.capgemini.architectcoders.data.datasource.RegionDataSource
+import com.capgemini.architectcoders.framework.GeoCoderRegionDataSource
+import com.capgemini.architectcoders.framework.MoviesRoomDataSource
+import com.capgemini.architectcoders.framework.MoviesServerDataSource
+import com.capgemini.architectcoders.framework.PlayServicesLocationDataSource
+import com.capgemini.architectcoders.framework.remote.MoviesClient
 import com.capgemini.architectcoders.ui.screens.detail.DetailScreen
 import com.capgemini.architectcoders.ui.screens.detail.DetailViewModel
 import com.capgemini.architectcoders.ui.screens.home.HomeScreen
 import com.capgemini.architectcoders.ui.screens.home.HomeViewModel
+import com.capgemini.architectcoders.usecases.FetchMoviesUseCase
+import com.capgemini.architectcoders.usecases.FindMovieByIdUseCase
+import com.capgemini.architectcoders.usecases.ToggleFavoriteUseCase
+import com.google.android.gms.location.LocationServices
 
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
     val app = LocalContext.current.applicationContext as App
-    val moviesRepository = MoviesRepository(
-        RegionRepository(
-            RegionDataSource(
-                app,
-                LocationDataSource(app)
-            )
-        ), MoviesLocalDataSource(app.db.moviesDao()), MoviesRemoteDataSource()
-    )
+    val moviesRepository =
+        MoviesRepository(
+            RegionRepository(
+                GeoCoderRegionDataSource(
+                    Geocoder(app),
+                    PlayServicesLocationDataSource(
+                        LocationServices.getFusedLocationProviderClient(app)
+                    )
+                )
+            ),
+            MoviesRoomDataSource(app.db.moviesDao()),
+            MoviesServerDataSource(MoviesClient.instance)
+        )
     NavHost(navController = navController, startDestination = Home) {// Destino de origen
         composable<Home> {
             HomeScreen(onMovieClick = { movie ->
                 navController.navigate(Details(movie.id))
-            }, viewModel { HomeViewModel(moviesRepository) })
+            }, viewModel { HomeViewModel(FetchMoviesUseCase(moviesRepository)) })
         }
         composable<Details> { backStackEntry ->
             val details = backStackEntry.toRoute<Details>()
             DetailScreen(
                 //viewModel = movies.first { it.id == details.movieId },
-                viewModel { DetailViewModel(details.movieId, moviesRepository) },
+                viewModel {
+                    DetailViewModel(
+                        details.movieId,
+                        FindMovieByIdUseCase(moviesRepository),
+                        ToggleFavoriteUseCase(moviesRepository)
+                    )
+                },
                 onBack = { navController.popBackStack() })
         }
     }

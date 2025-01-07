@@ -39,7 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.capgemini.architectcoders.R
-import com.capgemini.architectcoders.data.Movie
+import com.capgemini.architectcoders.domain.MovieModel
 import com.capgemini.architectcoders.ui.common.LoadingIndicator
 import com.capgemini.architectcoders.ui.screens.Screen
 
@@ -108,7 +108,7 @@ private fun DetailTopBar(
 
 @Composable
 private fun MovieDetail(
-    movie: Movie,
+    movie: MovieModel,
     modifier: Modifier = Modifier
 ) {
     Column(

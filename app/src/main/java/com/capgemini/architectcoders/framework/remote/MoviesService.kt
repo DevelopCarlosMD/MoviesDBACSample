@@ -1,4 +1,4 @@
-package com.capgemini.architectcoders.data.datasource.remote
+package com.capgemini.architectcoders.framework.remote
 
 import retrofit2.http.GET
 import retrofit2.http.Path

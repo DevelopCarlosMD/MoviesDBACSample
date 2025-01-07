@@ -1,4 +1,4 @@
-package com.capgemini.architectcoders.data.datasource.remote
+package com.capgemini.architectcoders.framework.remote
 
 import com.capgemini.architectcoders.BuildConfig
 import kotlinx.serialization.json.Json
