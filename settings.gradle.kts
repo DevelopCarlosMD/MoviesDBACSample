@@ -23,4 +23,11 @@ dependencyResolutionManagement {
 
 rootProject.name = "Architect Coders"
 include(":app")
- 
+include(":feature:home")
+include(":feature:common")
+include(":feature:detail")
+include(":framework:core")
+include(":framework:region")
+include(":framework:movie")
+include(":domain:region")
+include(":domain:movie")
