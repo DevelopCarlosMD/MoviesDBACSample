@@ -88,6 +88,10 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
+    implementation(platform(libs.koin.bom))
+    implementation(libs.koin.compose)
+    implementation(libs.koin.core)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

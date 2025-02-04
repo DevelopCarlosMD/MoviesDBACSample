@@ -5,7 +5,7 @@ import com.capgemini.architectcoders.domain.movie.entities.Movie
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class MoviesRoomDataSource(private val moviesDao: MoviesDao):
+internal class MoviesRoomDataSource(private val moviesDao: MoviesDao):
     MoviesLocalDataSource {
 
     override val movies: Flow<List<Movie>> =

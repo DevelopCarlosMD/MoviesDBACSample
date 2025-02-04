@@ -2,7 +2,6 @@ package com.capgemini.architectcoders.ui.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.capgemini.architectcoders.domain.movie.data.MoviesRepository
 import com.capgemini.architectcoders.domain.movie.entities.Movie
 import com.capgemini.architectcoders.domain.movie.usecases.FindMovieByIdUseCase
 import com.capgemini.architectcoders.domain.movie.usecases.ToggleFavoriteUseCase

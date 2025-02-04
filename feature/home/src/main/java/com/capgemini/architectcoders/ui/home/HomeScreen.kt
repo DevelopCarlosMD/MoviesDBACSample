@@ -36,6 +36,7 @@ import com.capgemini.architectcoders.domain.movie.entities.Movie
 import com.capgemini.architectcoders.ui.common.LoadingIndicator
 import com.capgemini.architectcoders.ui.common.PermissionRequestEffect
 import com.capgemini.architectcoders.ui.common.Screen
+import org.koin.androidx.compose.koinViewModel
 import com.capgemini.architectcoders.ui.common.R as CommonR
 
 
@@ -43,7 +44,7 @@ import com.capgemini.architectcoders.ui.common.R as CommonR
 @Composable
 fun HomeScreen(
     onMovieClick: (Movie) -> Unit,
-    vm: HomeViewModel
+    vm: HomeViewModel = koinViewModel()
 ) {
     val homeState = rememberHomeState()
     PermissionRequestEffect(permission = Manifest.permission.ACCESS_COARSE_LOCATION) {

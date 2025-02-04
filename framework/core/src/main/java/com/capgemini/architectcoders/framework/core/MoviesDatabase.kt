@@ -7,7 +7,7 @@ import com.capgemini.architectcoders.framework.movie.database.MoviesDao
 
 
 @Database(entities = [MovieEntity::class], version = 1, exportSchema = false)
-abstract class MoviesDatabase : RoomDatabase() {
+internal abstract class MoviesDatabase : RoomDatabase() {
     abstract fun moviesDao(): MoviesDao
 }
 

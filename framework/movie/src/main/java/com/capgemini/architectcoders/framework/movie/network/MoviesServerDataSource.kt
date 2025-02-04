@@ -3,7 +3,7 @@ package com.capgemini.architectcoders.framework.movie.network
 import com.capgemini.architectcoders.domain.movie.data.MoviesRemoteDataSource
 import com.capgemini.architectcoders.domain.movie.entities.Movie
 
-class MoviesServerDataSource(private val moviesService: MoviesService) : MoviesRemoteDataSource {
+internal class MoviesServerDataSource(private val moviesService: MoviesService) : MoviesRemoteDataSource {
 
     override suspend fun fetchPopularMovies(region: String): List<Movie> =
         moviesService.fetchPopularMovies(region)

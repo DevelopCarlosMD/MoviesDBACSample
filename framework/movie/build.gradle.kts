@@ -37,4 +37,6 @@ dependencies {
     ksp(libs.androidx.room.compiler)
     implementation(libs.retrofit)
     implementation(libs.kotlinx.serialization.json)
+    implementation(platform(libs.koin.bom))
+    implementation(libs.koin.core)
 }
