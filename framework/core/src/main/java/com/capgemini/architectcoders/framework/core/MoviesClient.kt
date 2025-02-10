@@ -1,6 +1,5 @@
 package com.capgemini.architectcoders.framework.core
 
-
 import com.capgemini.architectcoders.framework.movie.network.MoviesService
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor

@@ -37,4 +37,7 @@ dependencies {
     ksp(libs.androidx.room.compiler)
     implementation(libs.retrofit)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.hilt.core)
+    ksp(libs.hilt.compiler)
+
 }

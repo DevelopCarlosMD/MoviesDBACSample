@@ -2,18 +2,21 @@ package com.capgemini.architectcoders.ui.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.capgemini.architectcoders.domain.movie.data.MoviesRepository
 import com.capgemini.architectcoders.domain.movie.entities.Movie
 import com.capgemini.architectcoders.domain.movie.usecases.FindMovieByIdUseCase
 import com.capgemini.architectcoders.domain.movie.usecases.ToggleFavoriteUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import javax.inject.Named
 
-class DetailViewModel(
-    id: Int,
+@HiltViewModel
+class DetailViewModel @Inject constructor(
+    @Named("movieId") id: Int,
     findMovieByIdUseCase: FindMovieByIdUseCase,
     private val toggleFavoriteUseCase: ToggleFavoriteUseCase
 

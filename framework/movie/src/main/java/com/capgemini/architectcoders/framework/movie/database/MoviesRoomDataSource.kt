@@ -4,8 +4,9 @@ import com.capgemini.architectcoders.domain.movie.data.MoviesLocalDataSource
 import com.capgemini.architectcoders.domain.movie.entities.Movie
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class MoviesRoomDataSource(private val moviesDao: MoviesDao):
+class MoviesRoomDataSource @Inject constructor(private val moviesDao: MoviesDao):
     MoviesLocalDataSource {
 
     override val movies: Flow<List<Movie>> =

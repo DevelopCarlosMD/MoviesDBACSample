@@ -1,6 +1,7 @@
 plugins {
     id("java-library")
     alias(libs.plugins.jetbrainsKotlinJvm)
+    alias(libs.plugins.ksp)
 }
 
 java {
@@ -12,4 +13,9 @@ kotlin {
     compilerOptions {
         jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
     }
+}
+
+dependencies {
+    implementation(libs.hilt.core)
+    ksp(libs.hilt.compiler)
 }

@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -32,4 +33,7 @@ android {
 dependencies {
     implementation(project(":domain:region"))
     implementation(libs.play.services.location)
+    implementation(libs.hilt.core)
+    ksp(libs.hilt.compiler)
+
 }
