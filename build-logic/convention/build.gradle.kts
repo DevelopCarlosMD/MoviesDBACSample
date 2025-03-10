@@ -29,7 +29,7 @@ gradlePlugin {
             implementationClass = "AndroidLibraryComposeConventionPlugin"
         }
 
-        register("androidFeature") {   {}
+        register("androidFeature") {
             id = "com.capgemini.architectcoders.android.feature"
             implementationClass = "AndroidFeatureConventionPlugin"
         }
