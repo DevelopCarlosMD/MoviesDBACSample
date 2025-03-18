@@ -1,5 +1,6 @@
 plugins {
     id("com.capgemini.architectcoders.android.library")
+    id("com.capgemini.architectcoders.di.library")
 }
 
 android {

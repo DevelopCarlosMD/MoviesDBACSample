@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.ksp)
     id("com.capgemini.architectcoders.android.application")
     id("com.capgemini.architectcoders.android.application.compose")
+    id("com.capgemini.architectcoders.di.library.compose")
 }
 
 android {
@@ -62,9 +63,6 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.play.services.location)
-    implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler)
-    implementation(libs.kotlinx.serialization.json)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

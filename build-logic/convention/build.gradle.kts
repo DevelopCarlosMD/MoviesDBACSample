@@ -48,5 +48,15 @@ gradlePlugin {
             id = "com.capgemini.architectcoders.jvm.retrofit"
             implementationClass = "JvmRetrofitConventionPlugin"
         }
+
+        register("diLibrary") {
+            id = "com.capgemini.architectcoders.di.library"
+            implementationClass = "DiLibraryConventionPlugin"
+        }
+
+        register("diLibraryCompose") {
+            id = "com.capgemini.architectcoders.di.library.compose"
+            implementationClass = "DiLibraryComposeConventionPlugin"
+        }
     }
 }

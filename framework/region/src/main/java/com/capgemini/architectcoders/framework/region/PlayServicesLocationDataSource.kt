@@ -5,9 +5,10 @@ import com.capgemini.architectcoders.domain.region.data.LocationDataSource
 import com.capgemini.architectcoders.domain.region.entities.Location
 import com.google.android.gms.location.FusedLocationProviderClient
 import kotlinx.coroutines.suspendCancellableCoroutine
+import javax.inject.Inject
 import kotlin.coroutines.resume
 
-class PlayServicesLocationDataSource(
+class PlayServicesLocationDataSource @Inject constructor(
     private val fusedLocationClient: FusedLocationProviderClient
 ) : LocationDataSource {
     override suspend fun findLastLocation(): Location? = fusedLocationClient.lastLocation()

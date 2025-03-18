@@ -2,8 +2,9 @@ package com.capgemini.architectcoders.framework.movie.network
 
 import com.capgemini.architectcoders.domain.movie.data.MoviesRemoteDataSource
 import com.capgemini.architectcoders.domain.movie.entities.Movie
+import javax.inject.Inject
 
-class MoviesServerDataSource(private val moviesService: MoviesService) : MoviesRemoteDataSource {
+class MoviesServerDataSource @Inject constructor(private val moviesService: MoviesService) : MoviesRemoteDataSource {
 
     override suspend fun fetchPopularMovies(region: String): List<Movie> =
         moviesService.fetchPopularMovies(region)

@@ -5,9 +5,10 @@ import com.capgemini.architectcoders.domain.region.data.DEFAULT_REGION
 import com.capgemini.architectcoders.domain.region.data.LocationDataSource
 import com.capgemini.architectcoders.domain.region.data.RegionDataSource
 import com.capgemini.architectcoders.domain.region.entities.Location
+import javax.inject.Inject
 
 
-class GeocoderRegionDataSource(
+class GeocoderRegionDataSource @Inject constructor(
     private val geocoder: Geocoder,
     private val locationDataSource: LocationDataSource
 ) : RegionDataSource {
