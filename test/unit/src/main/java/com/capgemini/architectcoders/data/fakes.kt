@@ -6,7 +6,6 @@ import com.capgemini.architectcoders.domain.movie.data.MoviesRemoteDataSource
 import com.capgemini.architectcoders.domain.movie.data.MoviesRepository
 import com.capgemini.architectcoders.domain.movie.entities.Movie
 import com.capgemini.architectcoders.domain.region.data.DEFAULT_REGION
-import com.capgemini.architectcoders.domain.region.data.LocationDataSource
 import com.capgemini.architectcoders.domain.region.data.RegionDataSource
 import com.capgemini.architectcoders.domain.region.data.RegionRepository
 import com.capgemini.architectcoders.sampleMovies
