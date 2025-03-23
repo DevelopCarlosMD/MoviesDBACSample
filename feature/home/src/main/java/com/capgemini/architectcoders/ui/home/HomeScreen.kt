@@ -18,7 +18,6 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -34,7 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.capgemini.architectcoders.domain.movie.entities.Movie
-import com.capgemini.architectcoders.ui.common.LoadingIndicator
+import com.capgemini.architectcoders.ui.common.IniScaffold
 import com.capgemini.architectcoders.ui.common.PermissionRequestEffect
 import com.capgemini.architectcoders.ui.common.Screen
 import com.capgemini.architectcoders.ui.common.R as CommonR
@@ -51,22 +50,18 @@ fun HomeScreen(
         vm.onUiReady()
     }
     Screen {
-        Scaffold(
+        val state by vm.state.collectAsState()
+        IniScaffold(
+            state = state,
             topBar = {
                 TopAppBar(
-                    title = { Text(stringResource(id = CommonR.string.app_name)) },
+                    title = { Text(text = stringResource(id = CommonR.string.app_name)) },
                     scrollBehavior = homeState.scrollBehavior,
                 )
             },
             modifier = Modifier.nestedScroll(homeState.scrollBehavior.nestedScrollConnection),
-            contentWindowInsets = WindowInsets.safeDrawing,
-        ) { padding ->
-            val state by vm.state.collectAsState()
-
-            if (state.loading) {
-                LoadingIndicator()
-            }
-
+            contentWindowInsets = WindowInsets.safeDrawing
+        ) { padding, movies ->
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(120.dp),
                 contentPadding = padding,
@@ -74,7 +69,7 @@ fun HomeScreen(
                 verticalArrangement = Arrangement.spacedBy(4.dp),
                 modifier = Modifier.padding(horizontal = 4.dp)
             ) {
-                items(state.movies, key = { it.id }) {
+                items(movies, key = { it.id }) {
                     MovieItem(movie = it) { onMovieClick(it) }
                 }
             }
