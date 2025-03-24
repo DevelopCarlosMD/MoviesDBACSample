@@ -37,20 +37,33 @@ import com.capgemini.architectcoders.ui.common.IniScaffold
 import com.capgemini.architectcoders.ui.common.PermissionRequestEffect
 import com.capgemini.architectcoders.ui.common.Screen
 import com.capgemini.architectcoders.ui.common.R as CommonR
+import com.capgemini.architectcoders.ui.common.Result
 
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     onMovieClick: (Movie) -> Unit,
     vm: HomeViewModel = hiltViewModel()
 ) {
-    val homeState = rememberHomeState()
+
     PermissionRequestEffect(permission = Manifest.permission.ACCESS_COARSE_LOCATION) {
         vm.onUiReady()
     }
+
+    val state by vm.state.collectAsState()
+    HomeScreen(
+        state = state,
+        onMovieClick = onMovieClick
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HomeScreen(
+    state: Result<List<Movie>>,
+    onMovieClick: (Movie) -> Unit
+) {
+    val homeState = rememberHomeState()
     Screen {
-        val state by vm.state.collectAsState()
         IniScaffold(
             state = state,
             topBar = {
@@ -95,9 +108,11 @@ private fun MovieItem(movie: Movie, onClick: () -> Unit) {
             if (movie.isFavorite) {
                 Icon(
                     imageVector = Icons.Default.Favorite,
-                    contentDescription = stringResource(id =  R.string.favorite_content),
+                    contentDescription = stringResource(id = R.string.favorite_content),
                     tint = MaterialTheme.colorScheme.inverseSurface,
-                    modifier = Modifier.padding(4.dp).align(Alignment.TopEnd)
+                    modifier = Modifier
+                        .padding(4.dp)
+                        .align(Alignment.TopEnd)
 
                 )
             }

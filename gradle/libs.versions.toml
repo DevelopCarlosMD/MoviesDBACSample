@@ -23,8 +23,8 @@ material = "1.12.0"
 hilt = "2.51.1"
 hiltNavigationCompose = "1.2.0"
 mockitoKotlin = "5.3.1"
-junitJunit = "4.12"
 turbine = "1.1.0"
+test = "1.6.1"
 
 
 [libraries]
@@ -47,6 +47,7 @@ coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coi
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
+okhttp-mockwebserver = { group = "com.squareup.okhttp3", name = "mockwebserver", version.ref = "okhttp" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-converter-kotlinx-serialization = { group = "com.squareup.retrofit2", name = "converter-kotlinx-serialization", version.ref = "retrofit" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
@@ -61,13 +62,15 @@ androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navig
 hilt-core = { group = "com.google.dagger", name = "hilt-core", version.ref = "hilt" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
+hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
 mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockitoKotlin" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
+androidx-test-core = { group = "androidx.test", name = "core-ktx", version.ref = "test" }
+androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "test" }
 
 # Dependencies of the included build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
-junit-junit = { group = "junit", name = "junit", version.ref = "junitJunit" }
 
 [plugins]
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

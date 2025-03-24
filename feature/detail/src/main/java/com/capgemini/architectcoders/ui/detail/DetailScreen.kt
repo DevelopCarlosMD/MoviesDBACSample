@@ -42,12 +42,28 @@ import com.capgemini.architectcoders.domain.movie.entities.Movie
 import com.capgemini.architectcoders.ui.common.IniScaffold
 import com.capgemini.architectcoders.ui.common.Screen
 import com.capgemini.architectcoders.ui.common.R
+import com.capgemini.architectcoders.ui.common.Result
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(vm: DetailViewModel = hiltViewModel(), onBack: () -> Unit) {
     val state by vm.state.collectAsState()
+
+    DetailScreen(
+        state = state,
+        onBack = onBack,
+        onFavoriteClicked = vm::onFavoriteClicked
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DetailScreen(
+    state: Result<Movie>,
+    onBack: () -> Unit,
+    onFavoriteClicked: () -> Unit
+) {
+
     val detailState = rememberDetailState(state)
 
     Screen {
@@ -62,7 +78,7 @@ fun DetailScreen(vm: DetailViewModel = hiltViewModel(), onBack: () -> Unit) {
             },
             floatingActionButton = {
                 val favorite = detailState.movie?.isFavorite ?: false
-                FloatingActionButton(onClick = { vm.onFavoriteClicked() }) {
+                FloatingActionButton(onClick = { onFavoriteClicked() }) {
                     Icon(
                         imageVector = if (favorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                         contentDescription = stringResource(id = R.string.favorite)

@@ -15,8 +15,6 @@ internal class MoviesRoomDataSource @Inject constructor(private val moviesDao: M
     override fun findMovieById(id: Int): Flow<Movie?> =
         moviesDao.findMovieById(id).map { it?.toDomainMovie() }
 
-    override suspend fun isEmpty()= moviesDao.countMovies() == 0
-
     override suspend fun saveMovies(movies: List<Movie>) = moviesDao.saveMovies(movies.toDbMovies())
 }
 
