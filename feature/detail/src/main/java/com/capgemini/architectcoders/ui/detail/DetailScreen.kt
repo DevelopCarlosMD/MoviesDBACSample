@@ -17,7 +17,6 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -40,49 +39,61 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.capgemini.architectcoders.domain.movie.entities.Movie
-import com.capgemini.architectcoders.ui.common.LoadingIndicator
+import com.capgemini.architectcoders.ui.common.IniScaffold
 import com.capgemini.architectcoders.ui.common.Screen
 import com.capgemini.architectcoders.ui.common.R
+import com.capgemini.architectcoders.ui.common.Result
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(vm: DetailViewModel = hiltViewModel(), onBack: () -> Unit) {
     val state by vm.state.collectAsState()
-    val detailState = rememberDetailState()
+
+    DetailScreen(
+        state = state,
+        onBack = onBack,
+        onFavoriteClicked = vm::onFavoriteClicked
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DetailScreen(
+    state: Result<Movie>,
+    onBack: () -> Unit,
+    onFavoriteClicked: () -> Unit
+) {
+
+    val detailState = rememberDetailState(state)
 
     Screen {
-        Scaffold(
+        IniScaffold(
+            state = state,
             topBar = {
                 DetailTopBar(
-                    title = state.movie?.title ?: "",
+                    title = detailState.topBarTitle,
                     onBack = onBack,
                     scrollBehavior = detailState.scrollBehavior
                 )
             },
             floatingActionButton = {
-                val favorite = state.movie?.isFavorite ?: false
-                FloatingActionButton(onClick = { vm.onFavoriteClicked() }) {
+                val favorite = detailState.movie?.isFavorite ?: false
+                FloatingActionButton(onClick = { onFavoriteClicked() }) {
                     Icon(
                         imageVector = if (favorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                         contentDescription = stringResource(id = R.string.favorite)
                     )
                 }
             },
-            snackbarHost = {
+            snackBarHost = {
                 SnackbarHost(hostState = detailState.snackBarHostState)
             },
             modifier = Modifier.nestedScroll(detailState.scrollBehavior.nestedScrollConnection)
-        ) { padding ->
-            if (state.loading) {
-                LoadingIndicator(modifier = Modifier.padding(padding))
-            }
-            state.movie?.let {
-                MovieDetail(
-                    movie = it,
-                    modifier = Modifier.padding(padding)
-                )
-            }
+        ) { padding, movie ->
+            MovieDetail(
+                movie = movie,
+                modifier = Modifier.padding(padding)
+            )
         }
     }
 }

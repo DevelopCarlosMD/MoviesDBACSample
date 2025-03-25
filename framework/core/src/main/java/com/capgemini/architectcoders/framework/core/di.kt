@@ -2,6 +2,7 @@ package com.capgemini.architectcoders.framework.core
 
 import android.app.Application
 import androidx.room.Room
+import com.capgemini.architectcoders.framework.movie.database.MoviesDao
 import com.capgemini.architectcoders.framework.movie.network.MoviesService
 import dagger.Module
 import dagger.Provides
@@ -13,6 +14,20 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 internal object FrameworkCoreModule {
+    @Provides
+    fun provideMoviesDao(db: MoviesDatabase) : MoviesDao = db.moviesDao()
+
+    @Provides
+    @Singleton
+    fun provideMoviesService(
+        @Named("apiKey") apiKey: String,
+        @Named("apiUrl") apiUrl: String
+    ): MoviesService = MoviesClient(apiKey, apiUrl).instance
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+object FrameworkCoreExtrasModule {
 
     @Provides
     @Singleton
@@ -23,9 +38,7 @@ internal object FrameworkCoreModule {
     ).build()
 
     @Provides
-    fun provideMoviesDao(db: MoviesDatabase) = db.moviesDao()
-
-    @Provides
     @Singleton
-    fun provideMoviesService(@Named("apiKey") apiKey: String): MoviesService = MoviesClient(apiKey).instance
+    @Named("apiUrl")
+    fun provideApiUrl(): String = "https://api.themoviedb.org/3/"
 }

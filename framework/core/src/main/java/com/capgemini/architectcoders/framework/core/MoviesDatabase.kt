@@ -10,4 +10,3 @@ import com.capgemini.architectcoders.framework.movie.database.MoviesDao
 abstract class MoviesDatabase : RoomDatabase() {
     abstract fun moviesDao(): MoviesDao
 }
-
